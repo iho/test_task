@@ -1,0 +1,18 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: grpc-proxy
+  namespace: default
+spec:
+  virtualhost:
+    fqdn: your.grpc.domain
+    tls:
+      secretName: your-tls-secret
+  routes:
+    - conditions:
+        - prefix: /
+      services:
+        - name: my-grpc-service
+          port: 50051 # or whatever your gRPC service's port is
+      enableWebsockets: true
+      # protocol: h2c
